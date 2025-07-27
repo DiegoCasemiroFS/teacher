@@ -1,47 +1,29 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<style>
+body, #app, .app-root {
+  background: #fff !important;
+  color: #111;
+}
+</style>
+<script lang="ts">
+import Cabecalho from './components/Cabecalho.vue';
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+
+export default {
+  components: { Cabecalho },
+  setup() {
+    const route = useRoute();
+    const mostrarCabecalho = computed(() =>
+      route.path === '/consulta' ||
+      route.path === '/cadastro' ||
+      route.path.startsWith('/materia/')
+    );
+    return { mostrarCabecalho };
+  }
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <Cabecalho v-if="mostrarCabecalho" />
+  <router-view />
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
